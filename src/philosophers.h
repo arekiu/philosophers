@@ -15,5 +15,9 @@
 
 # include <pthread.h>
 # include <stdio.h>
+# include <limits.h>
+# include <unistd.h>
+
+int is_valid(int argc, char *argv[]);
 
 #endif

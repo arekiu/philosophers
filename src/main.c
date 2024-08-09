@@ -12,8 +12,22 @@
 
 #include "philosophers.h"
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
-	printf("Hallochen Worldchen\n");
+	if (argc == 5 || argc == 6)
+	{
+		if (!is_valid(argc, argv))
+		{
+			printf("Invalid arguments\n");
+			return (0);
+		}
+		else
+			printf("Todo bien!\n");
+	}
+	else
+	{
+		printf("Invalid number of arguments\n");
+		return (0);
+	}
 	return (0);
 }

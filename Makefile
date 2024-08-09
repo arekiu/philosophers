@@ -14,7 +14,7 @@ CC	= cc
 
 CCFLAGS = -Wall -Wextra -Werror -pthread
 
-SRC	= $(addprefix src/, main.c)
+SRC	= $(addprefix src/, main.c check_input.c)
 
 OBJS	= $(SRC:%.c=%.o)
 
