@@ -1,5 +1,34 @@
 #include "philosophers.h"
 
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	negative;
+	int	new_num;
+
+	i = 0;
+	negative = 1;
+	new_num = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			negative = negative * -1;
+		if (str[i + 1] == '+' || str[i + 1] == '-')
+			return (0);
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if ((new_num == 214748364) && (str[i] == '8') && (negative == -1))
+			return (-2147483648);
+		new_num = (new_num * 10) + (str[i] - '0');
+		i++;
+	}
+	return (new_num * negative);
+}
+
 static long long	ft_convert_to_ll(const char *str, int negative)
 {
 	int			i;
@@ -42,14 +71,6 @@ static long long	ft_atoll(const char *str)
 	return (ft_convert_to_ll(&str[i], negative));
 }
 
-static int	ft_isdigit(int num)
-{
-	if (num >= '0' && num <= '9')
-		return (1);
-	else
-		return (0);
-}
-
 static int	is_int(char *str)
 {
 	int	i;
@@ -59,7 +80,7 @@ static int	is_int(char *str)
 		return (0);
 	while (str[i] != '\0')
 	{
-		if (!ft_isdigit(str[i]))
+		if (!(str[i] >= '0' && str[i] <= '9'))
 			return (0);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aschmidt <aschmidt@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:49:06 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/01 15:49:16 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:21:45 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,7 @@
 # include <limits.h>
 # include <unistd.h>
 
-typedef struct s_simulation
-{
-    int     number_philos;
-    int     time_to_die;
-    int     time_to_eat;
-    int     time_to_sleep;
-    int     max_meals;
-    long    start_time;
-    int     end_simulation;
-    t_fork  *forks;
-    t_philosopher *philosophers;
-}       t_simulation;
+typedef struct s_philosopher    t_philosopher;
 
 typedef struct s_fork
 {
@@ -37,13 +26,25 @@ typedef struct s_fork
     int             fork_id;
 }                   t_fork;
 
+typedef struct s_simulation
+{
+    int     number_philos;
+    int     time_to_die;
+    int     time_to_eat;
+    int     time_to_sleep;
+    int     max_meals;
+    int    start_time;
+    int     end_simulation;
+    t_fork  *forks;
+    t_philosopher *philosophers;
+}       t_simulation;
 
 typedef struct s_philosopher
 {
     int         id;
     int         meals;
     int         max_meals;
-    long        last_meal;
+    int        last_meal;
     t_fork      *left_fork;
     t_fork      *right_fork;
     pthread_t   thread_id;
@@ -51,5 +52,6 @@ typedef struct s_philosopher
 }               t_philosopher;
 
 int is_valid(int argc, char *argv[]);
+int	ft_atoi(const char *str);
 
 #endif
