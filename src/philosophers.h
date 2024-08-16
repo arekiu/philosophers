@@ -15,8 +15,10 @@
 
 # include <pthread.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>
+# include <sys/time.h>
 
 typedef struct s_philosopher    t_philosopher;
 
@@ -33,8 +35,8 @@ typedef struct s_simulation
     int     time_to_eat;
     int     time_to_sleep;
     int     max_meals;
-    int    start_time;
-    int     end_simulation;
+    long long    start_time;
+    int     run_simulation;
     t_fork  *forks;
     t_philosopher *philosophers;
 }       t_simulation;
@@ -42,8 +44,7 @@ typedef struct s_simulation
 typedef struct s_philosopher
 {
     int         id;
-    int         meals;
-    int         max_meals;
+    int         meals_eaten;
     int        last_meal;
     t_fork      *left_fork;
     t_fork      *right_fork;
@@ -51,7 +52,11 @@ typedef struct s_philosopher
     t_simulation    *simulation;
 }               t_philosopher;
 
-int is_valid(int argc, char *argv[]);
-int	ft_atoi(const char *str);
+int         is_valid(int argc, char *argv[]);
+int         ft_atoi(const char *str);
+long long	ft_atoll(const char *str);
+long long   get_timestamp();
+void        print_state(t_simulation *sesion, int id, const char *state);
+void        clean_sesion(t_simulation *sesion);
 
 #endif

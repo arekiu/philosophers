@@ -51,7 +51,7 @@ static long long	ft_convert_to_ll(const char *str, int negative)
 	return (new_num * negative);
 }
 
-static long long	ft_atoll(const char *str)
+long long	ft_atoll(const char *str)
 {
 	int			i;
 	int			negative;
@@ -71,7 +71,7 @@ static long long	ft_atoll(const char *str)
 	return (ft_convert_to_ll(&str[i], negative));
 }
 
-static int	is_int(char *str)
+static int	is_number(char *str)
 {
 	int	i;
 
@@ -90,15 +90,11 @@ static int	is_int(char *str)
 int is_valid(int argc, char *argv[])
 {
     int i;
-    long long   num;
 
     i = 0;
     while (i < argc - 1)
     {
-        if (!is_int(argv[i + 1]))
-            return (0);
-        num = ft_atoll(argv[i + 1]);
-        if (num > INT_MAX || num < INT_MIN)
+        if (!is_number(argv[i + 1]))
             return (0);
         i++;
     }
