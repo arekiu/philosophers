@@ -46,7 +46,10 @@ void	set_philos(t_simulation *sesion)
 	{
 		sesion->philosophers[i].id = i + 1;
 		sesion->philosophers[i].left_fork = &sesion->forks[i];
-		sesion->philosophers[i].right_fork = &sesion->forks[(i + 1) % sesion->number_philos];
+		if (i == sesion->number_philos - 1)
+			sesion->philosophers[i].right_fork = &sesion->forks[0];
+		else
+			sesion->philosophers[i].right_fork = &sesion->forks[i + 1];
 		sesion->philosophers[i].last_meal = get_timestamp();
 		sesion->philosophers[i].meals_eaten = 0;
 		sesion->philosophers[i].simulation = sesion;
