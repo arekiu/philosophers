@@ -38,7 +38,6 @@ void	set_data(t_simulation *sesion, char *argv[])
 	sesion->philosophers = malloc(sizeof(t_philosopher) * sesion->number_philos);
 	if (!sesion->philosophers)
 		return ;
-	sesion->start_time = get_timestamp();
 }
 
 void	set_philos(t_simulation *sesion)
