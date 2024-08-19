@@ -18,15 +18,17 @@ void	set_data(t_simulation *sesion, char *argv[])
 
 	i = 0;
 	sesion->number_philos = ft_atoi(argv[1]);
-	sesion->time_to_die = ft_atoll(argv[2]);
-	sesion->time_to_eat = ft_atoll(argv[3]);
-	sesion->time_to_sleep = ft_atoll(argv[4]);
+	sesion->time_to_die = ft_atoi(argv[2]);
+	sesion->time_to_eat = ft_atoi(argv[3]);
+	sesion->time_to_sleep = ft_atoi(argv[4]);
 	sesion->run_simulation = 1;
 	if (argv[5])
 		sesion->max_meals = ft_atoi(argv[5]);
 	else
 		sesion->max_meals = -1;
 	sesion->forks = malloc(sizeof(t_fork) * sesion->number_philos);
+	if (!sesion->forks)
+		return ;
 	while (i < sesion->number_philos)
 	{
 		sesion->forks[i].fork_id = i;
@@ -34,6 +36,8 @@ void	set_data(t_simulation *sesion, char *argv[])
 		i++;
 	}
 	sesion->philosophers = malloc(sizeof(t_philosopher) * sesion->number_philos);
+	if (!sesion->philosophers)
+		return ;
 	sesion->start_time = get_timestamp();
 }
 
@@ -53,6 +57,7 @@ void	set_philos(t_simulation *sesion)
 		sesion->philosophers[i].last_meal = get_timestamp();
 		sesion->philosophers[i].meals_eaten = 0;
 		sesion->philosophers[i].simulation = sesion;
+		i++;
 	}
 }
 
@@ -70,11 +75,8 @@ int	main(int argc, char *argv[])
 		else
 		{
 			set_data(&sesion, argv);
-			printf("Time to die: %d\n", sesion.time_to_die);
-			printf("Max meals: %d\n", sesion.max_meals);
-			printf("The time %lld ms\n", sesion.start_time);
 			set_philos(&sesion);
-			//start_simulation(&sesion);
+			start_simulation(&sesion);
 			clean_sesion(&sesion);
 		}
 	}

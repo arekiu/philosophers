@@ -45,7 +45,7 @@ typedef struct s_philosopher
 {
     int         id;
     int         meals_eaten;
-    int        last_meal;
+    long long        last_meal;
     t_fork      *left_fork;
     t_fork      *right_fork;
     pthread_t   thread_id;
@@ -58,5 +58,8 @@ long long	ft_atoll(const char *str);
 long long   get_timestamp();
 void        print_state(t_simulation *sesion, int id, const char *state);
 void        clean_sesion(t_simulation *sesion);
+void        start_simulation(t_simulation *sesion);
+void    control_simulation(t_simulation *sesion);
+void    *philo_routine(void *arg);
 
 #endif
