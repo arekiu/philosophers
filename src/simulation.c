@@ -4,19 +4,21 @@ static void take_forks(t_philosopher *philo)
 {
     if (philo->simulation->run_simulation == 0)
         return ;
-    if (philo->id % 2 == 0) 
+    if (philo->id % 2 == 0)
     {
         pthread_mutex_lock(&philo->left_fork->fork);
         print_state(philo->simulation, philo->id, "has taken a fork");
+        usleep(100);
         if (philo->simulation->run_simulation == 0)
             return ;
         pthread_mutex_lock(&philo->right_fork->fork);
         print_state(philo->simulation, philo->id, "has taken a fork");
     }
-    else 
+    else
     {
         pthread_mutex_lock(&philo->right_fork->fork);
         print_state(philo->simulation, philo->id, "has taken a fork");
+        usleep(100);
         if (philo->simulation->run_simulation == 0)
             return ;
         pthread_mutex_lock(&philo->left_fork->fork);
@@ -38,7 +40,7 @@ void    *philo_routine(void *arg)
         print_state(sesion, philo->id, "is eating");
         philo->last_meal = get_timestamp();
         philo->meals_eaten++;
-        if (philo->meals_eaten >= sesion->max_meals)
+        if (sesion->max_meals != -1 && philo->meals_eaten >= sesion->max_meals)
         {
             sesion->run_simulation = 0;
             break;
@@ -56,10 +58,8 @@ void    *philo_routine(void *arg)
 void    control_simulation(t_simulation *sesion)
 {
     int i;
-    int full_philo;
     long long no_eating_time;
 
-    full_philo = 1;
     while (sesion->run_simulation)
     {
         i = 0;
@@ -72,14 +72,16 @@ void    control_simulation(t_simulation *sesion)
                 sesion->run_simulation = 0;
                 break ;
             }
-            if (sesion->philosophers[i].meals_eaten < sesion->max_meals)
-                full_philo = 0;
+            if (sesion->max_meals == sesion->philosophers[i].meals_eaten)
+            {
+                sesion->run_simulation = 0;
+                break;
+            }
             i++;
         }
-        if (sesion->max_meals > 0 && full_philo)
-            sesion->run_simulation = 0;
         usleep(10000);
     }
+    return ;
 }
 
 void    start_simulation(t_simulation *sesion)
@@ -94,7 +96,6 @@ void    start_simulation(t_simulation *sesion)
         pthread_create(&sesion->philosophers[i].thread_id, NULL, &philo_routine, &sesion->philosophers[i]);
         i++;
     }
-    sesion->start_time = get_timestamp();
     control_simulation(sesion);
     while (j < sesion->number_philos)
     {

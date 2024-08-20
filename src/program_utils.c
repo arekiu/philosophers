@@ -1,11 +1,13 @@
 #include "philosophers.h"
 
-long long get_timestamp() 
+long long get_timestamp()
 {
     struct timeval tv;
+    long long   timestamp;
 
     gettimeofday(&tv, NULL);
-    return (tv.tv_sec * (unsigned long)1000) + (tv.tv_usec / 1000);
+    timestamp = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
+    return (timestamp);
 }
 
 /*struct timeval (comes from sys/time.h) to hold the time

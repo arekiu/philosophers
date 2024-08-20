@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:53:22 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/12 15:24:13 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/20 09:53:02 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	set_data(t_simulation *sesion, char *argv[])
 	sesion->philosophers = malloc(sizeof(t_philosopher) * sesion->number_philos);
 	if (!sesion->philosophers)
 		return ;
+	sesion->start_time = get_timestamp();
 }
 
 void	set_philos(t_simulation *sesion)
