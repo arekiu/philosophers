@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   program_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/20 12:48:45 by aschmidt          #+#    #+#             */
+/*   Updated: 2024/08/20 12:52:48 by aschmidt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 long long get_timestamp()
@@ -30,9 +42,9 @@ void    clean_sesion(t_simulation *sesion)
     i = 0;
     while (i < sesion->number_philos)
     {
-        pthread_mutex_destroy(&sesion->forks[i].fork);
+        pthread_mutex_destroy(&sesion->forks[i].mutex);
         i++;
     }
     free(sesion->forks);
-    free(sesion->philosophers);
+    free(sesion->philos);
 }

@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:53:22 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/20 09:53:02 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:09:14 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	set_data(t_simulation *sesion, char *argv[])
 	while (i < sesion->number_philos)
 	{
 		sesion->forks[i].fork_id = i;
-		pthread_mutex_init(&sesion->forks[i].fork, NULL);
+		pthread_mutex_init(&sesion->forks[i].mutex, NULL);
 		i++;
 	}
-	sesion->philosophers = malloc(sizeof(t_philosopher) * sesion->number_philos);
-	if (!sesion->philosophers)
+	sesion->philos = malloc(sizeof(t_philosopher) * sesion->number_philos);
+	if (!sesion->philos)
 		return ;
 	sesion->start_time = get_timestamp();
 }
@@ -48,15 +48,15 @@ void	set_philos(t_simulation *sesion)
 	i = 0;
 	while (i < sesion->number_philos)
 	{
-		sesion->philosophers[i].id = i + 1;
-		sesion->philosophers[i].left_fork = &sesion->forks[i];
+		sesion->philos[i].id = i + 1;
+		sesion->philos[i].left_fork = &sesion->forks[i];
 		if (i == sesion->number_philos - 1)
-			sesion->philosophers[i].right_fork = &sesion->forks[0];
+			sesion->philos[i].right_fork = &sesion->forks[0];
 		else
-			sesion->philosophers[i].right_fork = &sesion->forks[i + 1];
-		sesion->philosophers[i].last_meal = get_timestamp();
-		sesion->philosophers[i].meals_eaten = 0;
-		sesion->philosophers[i].simulation = sesion;
+			sesion->philos[i].right_fork = &sesion->forks[i + 1];
+		sesion->philos[i].last_meal = get_timestamp();
+		sesion->philos[i].meals_eaten = 0;
+		sesion->philos[i].simulation = sesion;
 		i++;
 	}
 }

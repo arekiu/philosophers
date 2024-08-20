@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:49:06 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/12 15:21:45 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:54:53 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_philosopher    t_philosopher;
 
 typedef struct s_fork
 {
-    pthread_mutex_t fork;
+    pthread_mutex_t mutex;
     int             fork_id;
 }                   t_fork;
 
@@ -38,7 +38,7 @@ typedef struct s_simulation
     long long    start_time;
     int     run_simulation;
     t_fork  *forks;
-    t_philosopher *philosophers;
+    t_philosopher *philos;
 }       t_simulation;
 
 typedef struct s_philosopher
@@ -59,7 +59,9 @@ long long   get_timestamp();
 void        print_state(t_simulation *sesion, int id, const char *state);
 void        clean_sesion(t_simulation *sesion);
 void        start_simulation(t_simulation *sesion);
-void    control_simulation(t_simulation *sesion);
-void    *philo_routine(void *arg);
+void        control_simulation(t_simulation *sesion);
+void        *philo_routine(void *arg);
+int         is_alive(t_philosopher *philo);
+int         is_full(t_philosopher *philo);
 
 #endif

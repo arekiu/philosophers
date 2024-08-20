@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aschmidt <aschmidt@student.42berlin.d      +#+  +:+       +#+         #
+#    By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 15:38:07 by aschmidt          #+#    #+#              #
-#    Updated: 2024/08/01 15:45:06 by aschmidt         ###   ########.fr        #
+#    Updated: 2024/08/20 15:38:41 by aschmidt         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC	= cc
 
 CCFLAGS = -Wall -Wextra -Werror -pthread
 
-SRC	= $(addprefix src/, main.c input_utils.c program_utils.c simulation.c)
+SRC	= $(addprefix src/, main.c input_utils.c program_utils.c simulation.c philo_utils.c)
 
 OBJS	= $(SRC:%.c=%.o)
 
