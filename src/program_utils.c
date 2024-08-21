@@ -6,45 +6,42 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:48:45 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/20 12:52:48 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/21 10:38:04 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-long long get_timestamp()
+long long	get_timestamp(void)
 {
-    struct timeval tv;
-    long long   timestamp;
+	struct timeval	tv;
+	long long		timestamp;
 
-    gettimeofday(&tv, NULL);
-    timestamp = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
-    return (timestamp);
+	gettimeofday(&tv, NULL);
+	timestamp = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
+	return (timestamp);
 }
 
-/*struct timeval (comes from sys/time.h) to hold the time
-gettimeofday (stores current time, 2nd argument is timezone)
-tv_sec converts seconds to milliseconds and tv_usec micro to milliseconds, makes adittion*/
-void    print_state(t_simulation *sesion, int id, const char *state)
+void	print_state(t_simulation *sesion, int id, const char *state)
 {
-    long long current_time;
-    long long elapsed_time;
+	long long	current_time;
+	long long	elapsed_time;
 
-    current_time = get_timestamp();
-    elapsed_time = current_time - sesion->start_time;
-    printf("%lld %d %s\n", elapsed_time, id, state);
+	current_time = get_timestamp();
+	elapsed_time = current_time - sesion->start_time;
+	printf("%lld %d %s\n", elapsed_time, id, state);
 }
 
-void    clean_sesion(t_simulation *sesion)
+void	clean_sesion(t_simulation *sesion)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < sesion->number_philos)
-    {
-        pthread_mutex_destroy(&sesion->forks[i].mutex);
-        i++;
-    }
-    free(sesion->forks);
-    free(sesion->philos);
+	i = 0;
+	while (i < sesion->number_philos)
+	{
+		pthread_mutex_destroy(&sesion->forks[i].mutex);
+		i++;
+	}
+	free(sesion->forks);
+	free(sesion->philos);
 }

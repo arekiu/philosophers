@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aschmidt <aschmidt@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:48:22 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/20 12:48:29 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/21 10:36:43 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ static int	is_number(char *str)
 	return (1);
 }
 
-int is_valid(int argc, char *argv[])
+int	is_valid(int argc, char *argv[])
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < argc - 1)
-    {
-        if (!is_number(argv[i + 1]))
-            return (0);
-        i++;
-    }
-    return (1);
+	i = 0;
+	while (i < argc - 1)
+	{
+		if (!is_number(argv[i + 1]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
