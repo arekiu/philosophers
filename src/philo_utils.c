@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:30:35 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/21 10:25:20 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:19:28 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,24 @@ int	is_full(t_philosopher *philo)
 
 static void	take_forks(t_philosopher *philo)
 {
-	long long	last_meal_time;
-
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
-		print_state(philo->simulation, philo->id, "has taken a fork");
+		if (philo->simulation->run_simulation)
+			print_state(philo->simulation, philo->id, "has taken a fork");
 		usleep(100);
 		pthread_mutex_lock(&philo->right_fork->mutex);
-		last_meal_time = get_timestamp() - philo->last_meal;
-		if (last_meal_time < philo->simulation->time_to_die)
+		if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->right_fork->mutex);
-		print_state(philo->simulation, philo->id, "has taken a fork");
+		if (philo->simulation->run_simulation)
+			print_state(philo->simulation, philo->id, "has taken a fork");
 		usleep(100);
 		pthread_mutex_lock(&philo->left_fork->mutex);
-		last_meal_time = get_timestamp() - philo->last_meal;
-		if (last_meal_time < philo->simulation->time_to_die)
+		if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 	}
 	return ;
