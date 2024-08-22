@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:49:06 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/22 10:44:38 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:23:25 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		start_simulation(t_simulation *sesion);
 void		control_simulation(t_simulation *sesion);
 void		*philo_routine(void *arg);
 int			is_alive(t_philosopher *philo);
-int			is_full(t_philosopher *philo);
+int			are_full(t_simulation *sesion);
 int			philo_eat(t_philosopher *philo);
 void		philo_think(t_philosopher *philo);
 

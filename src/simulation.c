@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:48:53 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/22 10:44:10 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:26:51 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ void	*philo_routine(void *arg)
             return (NULL);
         print_state(sesion, philo->id, "is sleeping");
 		usleep(sesion->time_to_sleep * 1000);
-		if (!sesion->run_simulation)
-			return (NULL);
-		print_state(sesion, philo->id, "is thinking");
-		philo_think(philo);
-		if (!sesion->run_simulation)
+		if (sesion->run_simulation)
+		{
+			print_state(sesion, philo->id, "is thinking");
+			philo_think(philo);
+		}
+		else
 			return (NULL);
 	}
 	return (NULL);
@@ -48,11 +49,11 @@ void	control_simulation(t_simulation *sesion)
 		{
 			if (!is_alive(&sesion->philos[i]))
 				break ;
-			if (is_full(&sesion->philos[i]))
+			if (are_full(sesion))
 				break ;
 			i++;
 		}
-		usleep(1000);
+		usleep(100);
 	}
 	return ;
 }

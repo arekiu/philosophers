@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:30:35 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/22 10:43:34 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:39:01 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,51 +16,61 @@ int	is_alive(t_philosopher *philo)
 {
 	long long	time_without_eating;
 
-	//pthread_mutex_lock(&philo->simulation->run_mutex);
+	pthread_mutex_lock(&philo->simulation->run_mutex);
 	if (philo->meals_eaten == philo->simulation->max_meals)
+	{
+		pthread_mutex_unlock(&philo->simulation->run_mutex);
 		return (1);
+	}
 	time_without_eating = get_timestamp() - philo->last_meal;
-	if (time_without_eating > philo->simulation->time_to_die)
+	if (time_without_eating >= philo->simulation->time_to_die)
 	{
 		philo->simulation->run_simulation = 0;
 		print_state(philo->simulation, philo->id, "died");
-		//pthread_mutex_unlock(&philo->simulation->run_mutex);
+		pthread_mutex_unlock(&philo->simulation->run_mutex);
 		return (0);
 	}
-	//pthread_mutex_unlock(&philo->simulation->run_mutex);
+	pthread_mutex_unlock(&philo->simulation->run_mutex);
 	return (1);
 }
 
-int	is_full(t_philosopher *philo)
+int	are_full(t_simulation *sesion)
 {
-	if (philo->meals_eaten == philo->simulation->max_meals)
+	int	i;
+
+	i = 0;
+	while (i < sesion->number_philos)
 	{
-		philo->simulation->run_simulation = 0;
-		return (1);
+		if (sesion->philos[i].meals_eaten != sesion->max_meals)
+			return (0);
+		i++;
 	}
-	return (0);
+	sesion->run_simulation = 0;
+	return (1);
 }
 
 static void	take_forks(t_philosopher *philo)
 {
+	if (!philo->simulation->run_simulation)
+		return ;
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
-		if (philo->simulation->run_simulation)
+		//if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 		usleep(100);
 		pthread_mutex_lock(&philo->right_fork->mutex);
-		if (philo->simulation->run_simulation)
+		//if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->right_fork->mutex);
-		if (philo->simulation->run_simulation)
+		//if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 		usleep(100);
 		pthread_mutex_lock(&philo->left_fork->mutex);
-		if (philo->simulation->run_simulation)
+		//if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 	}
 	return ;
@@ -70,10 +80,14 @@ int	philo_eat(t_philosopher *philo)
 {
 	if (philo->simulation->number_philos == 1)
 	{
+		pthread_mutex_lock(&philo->left_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
+		pthread_mutex_unlock(&philo->left_fork->mutex);
 		return (0);
 	}
+	pthread_mutex_lock(&philo->simulation->run_mutex);
 	take_forks(philo);
+	pthread_mutex_unlock(&philo->simulation->run_mutex);
 	if (philo->simulation->run_simulation)
 	{
 		print_state(philo->simulation, philo->id, "is eating");
