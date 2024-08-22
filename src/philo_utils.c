@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:30:35 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/21 12:19:28 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:43:34 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ int	is_alive(t_philosopher *philo)
 {
 	long long	time_without_eating;
 
+	//pthread_mutex_lock(&philo->simulation->run_mutex);
+	if (philo->meals_eaten == philo->simulation->max_meals)
+		return (1);
 	time_without_eating = get_timestamp() - philo->last_meal;
 	if (time_without_eating > philo->simulation->time_to_die)
 	{
 		philo->simulation->run_simulation = 0;
 		print_state(philo->simulation, philo->id, "died");
+		//pthread_mutex_unlock(&philo->simulation->run_mutex);
 		return (0);
 	}
+	//pthread_mutex_unlock(&philo->simulation->run_mutex);
 	return (1);
 }
 
@@ -81,4 +86,20 @@ int	philo_eat(t_philosopher *philo)
 	if (!philo->simulation->run_simulation)
 		return (0);
 	return (1);
+}
+
+void philo_think(t_philosopher *philo)
+{
+	long	time_to_eat;
+	long	time_to_sleep;
+	long	time_to_think;
+
+	if (philo->simulation->number_philos % 2 == 0)
+		return ;
+	time_to_eat = philo->simulation->time_to_eat;
+	time_to_sleep = philo->simulation->time_to_sleep;
+	time_to_think = (time_to_eat * 2) - time_to_sleep;
+	if (time_to_think < 0)
+		time_to_think = 0;
+	usleep(time_to_think * 1000 * 0.3);
 }

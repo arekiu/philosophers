@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:53:22 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/20 15:09:14 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:36:58 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	set_data(t_simulation *sesion, char *argv[])
 	sesion->time_to_eat = ft_atoi(argv[3]);
 	sesion->time_to_sleep = ft_atoi(argv[4]);
 	sesion->run_simulation = 1;
+	pthread_mutex_init(&sesion->run_mutex, NULL);
 	if (argv[5])
 		sesion->max_meals = ft_atoi(argv[5]);
 	else
@@ -38,7 +39,6 @@ void	set_data(t_simulation *sesion, char *argv[])
 	sesion->philos = malloc(sizeof(t_philosopher) * sesion->number_philos);
 	if (!sesion->philos)
 		return ;
-	sesion->start_time = get_timestamp();
 }
 
 void	set_philos(t_simulation *sesion)

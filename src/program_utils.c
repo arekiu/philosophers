@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:48:45 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/21 10:38:04 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:43:46 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	clean_sesion(t_simulation *sesion)
 		pthread_mutex_destroy(&sesion->forks[i].mutex);
 		i++;
 	}
+	pthread_mutex_destroy(&sesion->run_mutex);
 	free(sesion->forks);
 	free(sesion->philos);
 }

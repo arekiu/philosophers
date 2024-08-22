@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:48:53 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/21 11:34:06 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:44:10 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,15 @@ void	*philo_routine(void *arg)
 	{
 		if (!philo_eat(philo))
 			return (NULL);
-		print_state(sesion, philo->id, "is sleeping");
+        if (!sesion->run_simulation)
+            return (NULL);
+        print_state(sesion, philo->id, "is sleeping");
 		usleep(sesion->time_to_sleep * 1000);
-		if (!philo->simulation->run_simulation)
+		if (!sesion->run_simulation)
 			return (NULL);
 		print_state(sesion, philo->id, "is thinking");
-		if (!philo->simulation->run_simulation)
+		philo_think(philo);
+		if (!sesion->run_simulation)
 			return (NULL);
 	}
 	return (NULL);
@@ -41,7 +44,7 @@ void	control_simulation(t_simulation *sesion)
 	while (sesion->run_simulation)
 	{
 		i = 0;
-		while (i < sesion->number_philos)
+		while (i < sesion->number_philos && sesion->run_simulation)
 		{
 			if (!is_alive(&sesion->philos[i]))
 				break ;
@@ -61,6 +64,7 @@ void	start_simulation(t_simulation *sesion)
 
 	i = 0;
 	j = 0;
+    sesion->start_time = get_timestamp();
 	while (i < sesion->number_philos)
 	{
 		pthread_create(&sesion->philos[i].thread_id, \
