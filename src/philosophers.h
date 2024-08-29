@@ -38,6 +38,8 @@ typedef struct s_simulation
 	long long		start_time;
 	int				run_simulation;
     pthread_mutex_t run_mutex;
+	pthread_mutex_t	log_mutex;
+	pthread_mutex_t	action_mutex;
 	t_fork			*forks;
 	t_philosopher	*philos;
 }	t_simulation;

@@ -12,6 +12,13 @@
 
 #include "philosophers.h"
 
+static void	init_mutex(t_simulation *sesion)
+{
+	pthread_mutex_init(&sesion->run_mutex, NULL);
+	pthread_mutex_init(&sesion->action_mutex, NULL);
+	pthread_mutex_init(&sesion->log_mutex, NULL);
+}
+
 void	set_data(t_simulation *sesion, char *argv[])
 {
 	int	i;
@@ -22,7 +29,7 @@ void	set_data(t_simulation *sesion, char *argv[])
 	sesion->time_to_eat = ft_atoi(argv[3]);
 	sesion->time_to_sleep = ft_atoi(argv[4]);
 	sesion->run_simulation = 1;
-	pthread_mutex_init(&sesion->run_mutex, NULL);
+	init_mutex(sesion);
 	if (argv[5])
 		sesion->max_meals = ft_atoi(argv[5]);
 	else

@@ -56,21 +56,21 @@ static void	take_forks(t_philosopher *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
-		//if (philo->simulation->run_simulation)
+		if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 		usleep(100);
 		pthread_mutex_lock(&philo->right_fork->mutex);
-		//if (philo->simulation->run_simulation)
+		if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->right_fork->mutex);
-		//if (philo->simulation->run_simulation)
+		if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 		usleep(100);
 		pthread_mutex_lock(&philo->left_fork->mutex);
-		//if (philo->simulation->run_simulation)
+		if (philo->simulation->run_simulation)
 			print_state(philo->simulation, philo->id, "has taken a fork");
 	}
 	return ;
@@ -85,9 +85,7 @@ int	philo_eat(t_philosopher *philo)
 		pthread_mutex_unlock(&philo->left_fork->mutex);
 		return (0);
 	}
-	pthread_mutex_lock(&philo->simulation->run_mutex);
 	take_forks(philo);
-	pthread_mutex_unlock(&philo->simulation->run_mutex);
 	if (philo->simulation->run_simulation)
 	{
 		print_state(philo->simulation, philo->id, "is eating");

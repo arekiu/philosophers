@@ -27,9 +27,11 @@ void	print_state(t_simulation *sesion, int id, const char *state)
 	long long	current_time;
 	long long	elapsed_time;
 
+	pthread_mutex_lock(&sesion->log_mutex);
 	current_time = get_timestamp();
 	elapsed_time = current_time - sesion->start_time;
 	printf("%lld %d %s\n", elapsed_time, id, state);
+	pthread_mutex_unlock(&sesion->log_mutex);
 }
 
 void	clean_sesion(t_simulation *sesion)
@@ -43,6 +45,8 @@ void	clean_sesion(t_simulation *sesion)
 		i++;
 	}
 	pthread_mutex_destroy(&sesion->run_mutex);
+	pthread_mutex_destroy(&sesion->action_mutex);
+	pthread_mutex_destroy(&sesion->log_mutex);
 	free(sesion->forks);
 	free(sesion->philos);
 }
