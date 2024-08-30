@@ -19,21 +19,21 @@ void	*philo_routine(void *arg)
 
 	philo = (t_philosopher *)arg;
 	sesion = philo->simulation;
-	while (sesion->run_simulation)
+	while (1)
 	{
+		pthread_mutex_lock(&sesion->run_mutex);
+        if (!sesion->run_simulation)
+        {
+            pthread_mutex_unlock(&sesion->run_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&sesion->run_mutex);
 		if (!philo_eat(philo))
 			return (NULL);
-        if (!sesion->run_simulation)
-            return (NULL);
         print_state(sesion, philo->id, "is sleeping");
 		usleep(sesion->time_to_sleep * 1000);
-		if (sesion->run_simulation)
-		{
-			print_state(sesion, philo->id, "is thinking");
-			philo_think(philo);
-		}
-		else
-			return (NULL);
+		print_state(sesion, philo->id, "is thinking");
+		philo_think(philo);
 	}
 	return (NULL);
 }
@@ -42,10 +42,17 @@ void	control_simulation(t_simulation *sesion)
 {
 	int	i;
 
-	while (sesion->run_simulation)
+	while (1)
 	{
+		pthread_mutex_lock(&sesion->run_mutex);
+        if (!sesion->run_simulation)
+        {
+            pthread_mutex_unlock(&sesion->run_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&sesion->run_mutex);
 		i = 0;
-		while (i < sesion->number_philos && sesion->run_simulation)
+		while (i < sesion->number_philos)
 		{
 			if (!is_alive(&sesion->philos[i]))
 				break ;
@@ -53,7 +60,7 @@ void	control_simulation(t_simulation *sesion)
 				break ;
 			i++;
 		}
-		usleep(100);
+		usleep(1000);
 	}
 	return ;
 }

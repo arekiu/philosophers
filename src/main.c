@@ -15,7 +15,6 @@
 static void	init_mutex(t_simulation *sesion)
 {
 	pthread_mutex_init(&sesion->run_mutex, NULL);
-	pthread_mutex_init(&sesion->action_mutex, NULL);
 	pthread_mutex_init(&sesion->log_mutex, NULL);
 }
 
@@ -64,6 +63,7 @@ void	set_philos(t_simulation *sesion)
 		sesion->philos[i].last_meal = get_timestamp();
 		sesion->philos[i].meals_eaten = 0;
 		sesion->philos[i].simulation = sesion;
+		pthread_mutex_init(&sesion->philos[i].action_mutex, NULL);
 		i++;
 	}
 }

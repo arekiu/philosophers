@@ -39,7 +39,6 @@ typedef struct s_simulation
 	int				run_simulation;
     pthread_mutex_t run_mutex;
 	pthread_mutex_t	log_mutex;
-	pthread_mutex_t	action_mutex;
 	t_fork			*forks;
 	t_philosopher	*philos;
 }	t_simulation;
@@ -53,6 +52,7 @@ typedef struct s_philosopher
 	t_fork			*right_fork;
 	pthread_t		thread_id;
 	t_simulation	*simulation;
+	pthread_mutex_t	action_mutex;
 }	t_philosopher;
 
 int			is_valid(int argc, char *argv[]);
@@ -68,5 +68,6 @@ int			is_alive(t_philosopher *philo);
 int			are_full(t_simulation *sesion);
 int			philo_eat(t_philosopher *philo);
 void		philo_think(t_philosopher *philo);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
