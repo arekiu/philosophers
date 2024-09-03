@@ -69,5 +69,6 @@ int			are_full(t_simulation *sesion);
 int			philo_eat(t_philosopher *philo);
 void		philo_think(t_philosopher *philo);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+void		run_timer(t_philosopher *philo, long miliseconds);
 
 #endif

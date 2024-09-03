@@ -110,5 +110,10 @@ int	is_valid(int argc, char *argv[])
 			return (0);
 		i++;
 	}
+	if (ft_atoi(argv[1]) == 0)
+	{
+		printf("No philosophers\n");
+		return (0);
+	}
 	return (1);
 }

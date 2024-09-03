@@ -23,7 +23,7 @@ int	is_alive(t_philosopher *philo)
 		return (1);
 	}
 	time_without_eating = get_timestamp() - philo->last_meal;
-	if (time_without_eating >= philo->simulation->time_to_die)
+	if (time_without_eating > philo->simulation->time_to_die)
 	{	
 		pthread_mutex_lock(&philo->simulation->run_mutex);
 		philo->simulation->run_simulation = 0;
@@ -96,7 +96,7 @@ int	philo_eat(t_philosopher *philo)
 	philo->last_meal = get_timestamp();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->action_mutex);
-	usleep(philo->simulation->time_to_eat * 1000);
+	run_timer(philo, philo->simulation->time_to_eat);
 	pthread_mutex_unlock(&philo->left_fork->mutex);
 	pthread_mutex_unlock(&philo->right_fork->mutex);
 	return (1);
@@ -115,5 +115,5 @@ void philo_think(t_philosopher *philo)
 	time_to_think = (time_to_eat * 2) - time_to_sleep;
 	if (time_to_think < 0)
 		time_to_think = 0;
-	usleep(time_to_think * 1000 * 0.3);
+	run_timer(philo, time_to_think * 0.3);
 }

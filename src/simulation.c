@@ -31,7 +31,7 @@ void	*philo_routine(void *arg)
 		if (!philo_eat(philo))
 			return (NULL);
         print_state(sesion, philo->id, "is sleeping");
-		usleep(sesion->time_to_sleep * 1000);
+		run_timer(philo, sesion->time_to_sleep);
 		print_state(sesion, philo->id, "is thinking");
 		philo_think(philo);
 	}

@@ -82,3 +82,21 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
+void    run_timer(t_philosopher *philo, long miliseconds)
+{
+	long long 	start_time;
+   	long long	current_time;
+   	long long	end_time;
+    
+    start_time = get_timestamp();
+	end_time = start_time + miliseconds;
+    current_time = start_time;
+    while (current_time < end_time)
+	{
+		usleep(100);
+        if (current_time - philo->last_meal > philo->simulation->time_to_die)
+            break;
+		current_time = get_timestamp();
+    }
+}
