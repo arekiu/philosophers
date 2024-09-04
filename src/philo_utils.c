@@ -66,7 +66,7 @@ static void	take_forks(t_philosopher *philo)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
-		usleep(100);
+		//usleep(100);
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
 	}
@@ -74,7 +74,7 @@ static void	take_forks(t_philosopher *philo)
 	{
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
-		usleep(100);
+		//usleep(100);
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
 	}

@@ -107,12 +107,20 @@ int	is_valid(int argc, char *argv[])
 	while (i < argc - 1)
 	{
 		if (!is_number(argv[i + 1]))
+		{
+			printf("Invalid arguments\n");
 			return (0);
+		}
 		i++;
 	}
 	if (ft_atoi(argv[1]) == 0)
 	{
 		printf("No philosophers\n");
+		return (0);
+	}
+	if (argc == 6 && ft_atoi(argv[5]) == 0)
+	{
+		printf("No foods to be eaten\n");
 		return (0);
 	}
 	return (1);

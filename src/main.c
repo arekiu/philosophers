@@ -75,10 +75,7 @@ int	main(int argc, char *argv[])
 	if (argc == 5 || argc == 6)
 	{
 		if (!is_valid(argc, argv))
-		{
-			printf("Invalid arguments\n");
 			return (1);
-		}
 		else
 		{
 			set_data(&sesion, argv);

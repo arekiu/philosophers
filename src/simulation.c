@@ -28,12 +28,12 @@ void	*philo_routine(void *arg)
             break;
         }
         pthread_mutex_unlock(&sesion->run_mutex);
+		print_state(sesion, philo->id, "is thinking");
+		philo_think(philo);
 		if (!philo_eat(philo))
 			return (NULL);
         print_state(sesion, philo->id, "is sleeping");
 		run_timer(philo, sesion->time_to_sleep);
-		print_state(sesion, philo->id, "is thinking");
-		philo_think(philo);
 	}
 	return (NULL);
 }
