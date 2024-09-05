@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:49:06 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/09/05 12:40:46 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:48:38 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,10 @@ int			philo_eat(t_philosopher *philo);
 void		philo_think(t_philosopher *philo);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		run_timer(t_philosopher *philo, long miliseconds);
+
+# define GREEN "\e[0;32m"
+# define RED "\e[0;31m"
+# define YELLOW "\e[1;33m"
+# define RESET "\e[0m"
 
 #endif
