@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:49:06 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/22 15:23:25 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:40:46 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_simulation
 	int				max_meals;
 	long long		start_time;
 	int				run_simulation;
-    pthread_mutex_t run_mutex;
+	pthread_mutex_t	run_mutex;
 	pthread_mutex_t	log_mutex;
 	t_fork			*forks;
 	t_philosopher	*philos;
@@ -59,13 +59,13 @@ int			is_valid(int argc, char *argv[]);
 int			ft_atoi(const char *str);
 long long	ft_atoll(const char *str);
 long long	get_timestamp(void);
-void		print_state(t_simulation *sesion, int id, const char *state);
-void		clean_sesion(t_simulation *sesion);
-void		start_simulation(t_simulation *sesion);
-void		control_simulation(t_simulation *sesion);
+void		print_state(t_simulation *session, int id, const char *state);
+void		clean_session(t_simulation *session);
+void		start_simulation(t_simulation *session);
+void		control_simulation(t_simulation *session);
 void		*philo_routine(void *arg);
 int			is_alive(t_philosopher *philo);
-int			are_full(t_simulation *sesion);
+int			are_full(t_simulation *session);
 int			philo_eat(t_philosopher *philo);
 void		philo_think(t_philosopher *philo);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);

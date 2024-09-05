@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:48:22 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/21 10:36:43 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:42:01 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ int	is_valid(int argc, char *argv[])
 	i = 0;
 	while (i < argc - 1)
 	{
-		if (!is_number(argv[i + 1]))
+		if (!is_number(argv[i + 1]) || (ft_atoll(argv[i + 1]) \
+		> INT_MAX || ft_atoll(argv[i + 1]) < INT_MIN))
 		{
 			printf("Invalid arguments\n");
 			return (0);

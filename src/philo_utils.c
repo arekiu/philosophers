@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:30:35 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/22 17:39:01 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:40:49 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_alive(t_philosopher *philo)
 	}
 	time_without_eating = get_timestamp() - philo->last_meal;
 	if (time_without_eating > philo->simulation->time_to_die)
-	{	
+	{
 		pthread_mutex_lock(&philo->simulation->run_mutex);
 		philo->simulation->run_simulation = 0;
 		pthread_mutex_unlock(&philo->simulation->run_mutex);
@@ -36,26 +36,28 @@ int	is_alive(t_philosopher *philo)
 	return (1);
 }
 
-int	are_full(t_simulation *sesion)
+int	are_full(t_simulation *session)
 {
 	int	i;
 	int	all_full;
 
 	i = 0;
 	all_full = 1;
-	while (i < sesion->number_philos)
+	if (session->max_meals == -1)
+		return (0);
+	while (i < session->number_philos)
 	{
-		pthread_mutex_lock(&sesion->philos[i].action_mutex);
-		if (sesion->philos[i].meals_eaten != sesion->max_meals)
+		pthread_mutex_lock(&session->philos[i].action_mutex);
+		if (session->philos[i].meals_eaten < session->max_meals)
 			all_full = 0;
-		pthread_mutex_unlock(&sesion->philos[i].action_mutex);	
+		pthread_mutex_unlock(&session->philos[i].action_mutex);
 		i++;
 	}
 	if (all_full == 1)
 	{
-		pthread_mutex_lock(&sesion->run_mutex);
-		sesion->run_simulation = 0;
-		pthread_mutex_unlock(&sesion->run_mutex);
+		pthread_mutex_lock(&session->run_mutex);
+		session->run_simulation = 0;
+		pthread_mutex_unlock(&session->run_mutex);
 	}
 	return (all_full);
 }
@@ -66,7 +68,7 @@ static void	take_forks(t_philosopher *philo)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
-		//usleep(100);
+		usleep(100);
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
 	}
@@ -74,7 +76,7 @@ static void	take_forks(t_philosopher *philo)
 	{
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
-		//usleep(100);
+		usleep(100);
 		pthread_mutex_lock(&philo->left_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
 	}
@@ -102,7 +104,7 @@ int	philo_eat(t_philosopher *philo)
 	return (1);
 }
 
-void philo_think(t_philosopher *philo)
+void	philo_think(t_philosopher *philo)
 {
 	long	time_to_eat;
 	long	time_to_sleep;
@@ -113,7 +115,7 @@ void philo_think(t_philosopher *philo)
 	time_to_eat = philo->simulation->time_to_eat;
 	time_to_sleep = philo->simulation->time_to_sleep;
 	time_to_think = (time_to_eat * 2) - time_to_sleep;
-	if (time_to_think < 0)
+	if (time_to_think < 0 || philo->meals_eaten == 0)
 		time_to_think = 0;
 	run_timer(philo, time_to_think * 0.3);
 }

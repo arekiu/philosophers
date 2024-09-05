@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 12:48:45 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/08/21 12:43:46 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:40:47 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,42 +22,42 @@ long long	get_timestamp(void)
 	return (timestamp);
 }
 
-void	print_state(t_simulation *sesion, int id, const char *state)
+void	print_state(t_simulation *session, int id, const char *state)
 {
 	long long	current_time;
 	long long	elapsed_time;
 	int			running;
 
 	current_time = get_timestamp();
-	elapsed_time = current_time - sesion->start_time;
-	pthread_mutex_lock(&sesion->run_mutex);
-	running = sesion->run_simulation;
-	pthread_mutex_unlock(&sesion->run_mutex);
-	pthread_mutex_lock(&sesion->log_mutex);
+	elapsed_time = current_time - session->start_time;
+	pthread_mutex_lock(&session->run_mutex);
+	running = session->run_simulation;
+	pthread_mutex_unlock(&session->run_mutex);
+	pthread_mutex_lock(&session->log_mutex);
 	if (running == 0 && ft_strncmp(state, "died", 4) != 0)
 	{
-		pthread_mutex_unlock(&sesion->log_mutex);
+		pthread_mutex_unlock(&session->log_mutex);
 		return ;
 	}
 	printf("%lld %d %s\n", elapsed_time, id, state);
-	pthread_mutex_unlock(&sesion->log_mutex);
+	pthread_mutex_unlock(&session->log_mutex);
 }
 
-void	clean_sesion(t_simulation *sesion)
+void	clean_session(t_simulation *session)
 {
 	int	i;
 
 	i = 0;
-	while (i < sesion->number_philos)
+	while (i < session->number_philos)
 	{
-		pthread_mutex_destroy(&sesion->forks[i].mutex);
-		pthread_mutex_destroy(&sesion->philos[i].action_mutex);
+		pthread_mutex_destroy(&session->forks[i].mutex);
+		pthread_mutex_destroy(&session->philos[i].action_mutex);
 		i++;
 	}
-	pthread_mutex_destroy(&sesion->run_mutex);
-	pthread_mutex_destroy(&sesion->log_mutex);
-	free(sesion->forks);
-	free(sesion->philos);
+	pthread_mutex_destroy(&session->run_mutex);
+	pthread_mutex_destroy(&session->log_mutex);
+	free(session->forks);
+	free(session->philos);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -83,20 +83,20 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-void    run_timer(t_philosopher *philo, long miliseconds)
+void	run_timer(t_philosopher *philo, long miliseconds)
 {
-	long long 	start_time;
-   	long long	current_time;
-   	long long	end_time;
-    
-    start_time = get_timestamp();
+	long long	start_time;
+	long long	current_time;
+	long long	end_time;
+
+	start_time = get_timestamp();
 	end_time = start_time + miliseconds;
-    current_time = start_time;
-    while (current_time < end_time)
+	current_time = start_time;
+	while (current_time < end_time)
 	{
 		usleep(100);
-        if (current_time - philo->last_meal > philo->simulation->time_to_die)
-            break;
+		if (current_time - philo->last_meal > philo->simulation->time_to_die)
+			break ;
 		current_time = get_timestamp();
-    }
+	}
 }
