@@ -6,7 +6,7 @@
 /*   By: aschmidt <aschmidt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 15:30:35 by aschmidt          #+#    #+#             */
-/*   Updated: 2024/09/05 12:40:49 by aschmidt         ###   ########.fr       */
+/*   Updated: 2024/09/05 16:57:31 by aschmidt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	take_forks(t_philosopher *philo)
 	}
 	else
 	{
+		usleep(100);
 		pthread_mutex_lock(&philo->right_fork->mutex);
 		print_state(philo->simulation, philo->id, "has taken a fork");
 		usleep(100);
